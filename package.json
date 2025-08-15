@@ -4,12 +4,12 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
+        "test": "dotenv -e .env.test -- node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests  --runInBand --detectOpenHandles --forceExit",
         "test:watch": "npm run test -- --watch",
         "test:coverage": "npm run test -- --coverage --silent",
         "postinstall": "husky install && prisma generate",
         "start:dev": "node --watch index.js",
-        "eslint:check": "eslint src --ext .js",
+        "eslint:check": "eslint src",
         "prettier:check": "prettier --check src"
     },
     "keywords": [],
