@@ -1,0 +1,11 @@
+node_modules
+.postgres
+
+.env
+.env.test
+
+.postgres-data
+/src/generated/prisma
+
+# tests
+coverage

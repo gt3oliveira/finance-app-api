@@ -1,0 +1,549 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Finance App API",
+        "description": "Finance App API usado para usuários gerenciar suas finanças.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/user/{userId}/balance": {
+            "get": {
+                "summary": "Get user balance by user id",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User id to get balance"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User balance found successfully",
+                        "schema": {
+                            "$ref": "#/definitions/userBalance"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_UserNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/{userId}": {
+            "get": {
+                "summary": "Get user by id",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User id to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found successfully",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_UserNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete user by id",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User id to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_UserNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update user by id",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "User id to update"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or required (params or fields)",
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_UserNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "post": {
+                "summary": "Create a new user",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created user successfully",
+                        "schema": {
+                            "$ref": "#/definitions/user"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or required params",
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transactions": {
+            "get": {
+                "summary": "Get transactions by user id",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Id of the user to get transactions."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transactions found successfully",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/transaction"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_TransactionNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new transaction",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created transaction successfully",
+                        "schema": {
+                            "$ref": "#/definitions/transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or required params",
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_TransactionNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transactions/{transactionId}": {
+            "patch": {
+                "summary": "Update a transaction",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Transaction id to update"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/updateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid or required (params or fields)",
+                        "schema": {
+                            "$ref": "#/definitions/400"
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_TransactionNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete transaction by id",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "required": true,
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Transaction id to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/transaction"
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/404_TransactionNotFound"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/500"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "createUserParams": {
+            "type": "object",
+            "required": ["first_name", "last_name", "email", "password"],
+            "properties": {
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johnDoe@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "e7b2c6a2-8f4a-4c1e-9b7d-2a1e8c3f5d9a"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johnDoe@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
+        "userBalance": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "totalEarnings": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "totalExpenses": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "totalInvestments": {
+                    "type": "number",
+                    "example": 1000
+                }
+            }
+        },
+        "transaction": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "e7b2c6a2-8f4a-4c1e-9b7d-2a1e8c3f5d9a"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "e7b2c6a2-8f4a-4c1e-9b7d-2a1e8c3f5d9a"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2025-08-14T12:34:56.789Z"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "expense",
+                    "description": "EARNING, EXPENSE, INVESTMENT"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 1000
+                }
+            }
+        },
+        "createTransactionParams": {
+            "type": "object",
+            "required": ["user_id", "name", "date", "type", "amount"],
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "example": "e7b2c6a2-8f4a-4c1e-9b7d-2a1e8c3f5d9a"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2025-08-14T12:34:56.789Z"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EARNING",
+                    "description": "EARNING, EXPENSE, INVESTMENT"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 1000
+                }
+            }
+        },
+        "updateTransactionParams": {
+            "type": "object",
+            "required": ["name", "date", "type", "amount"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Salary"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2025-08-14T12:34:56.789Z"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EARNING",
+                    "description": "EARNING, EXPENSE, INVESTMENT"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 1000
+                }
+            }
+        },
+        "404_UserNotFound": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "User not found."
+                }
+            }
+        },
+        "404_TransactionNotFound": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Transaction not found."
+                }
+            }
+        },
+        "500": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Internal server error."
+                }
+            }
+        },
+        "400": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "[first_name, last_name, email, password] is required or invalid."
+                }
+            }
+        }
+    }
+}
