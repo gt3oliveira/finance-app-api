@@ -43,7 +43,9 @@ describe('GetUserBalanceUseCase', () => {
     it('should throw if getUserByIdRepository throws null', async () => {
         const { sut, getUserByIdRepository } = makSut()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockResolvedValueOnce(null)
 
         const promise = sut.execute(user.id)
 
@@ -53,9 +55,9 @@ describe('GetUserBalanceUseCase', () => {
     it('should throw if getUserByIdRepository throws Error', async () => {
         const { sut, getUserByIdRepository } = makSut()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(user.id)
 
@@ -65,9 +67,9 @@ describe('GetUserBalanceUseCase', () => {
     it('should throw if getUserBalanceRepository throws Error', async () => {
         const { sut, getUserBalanceRepository } = makSut()
 
-        jest.spyOn(getUserBalanceRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserBalanceRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(user.id)
 
@@ -77,7 +79,10 @@ describe('GetUserBalanceUseCase', () => {
     it('should call GetUserBalanceRepository with correct params', async () => {
         const { sut, getUserBalanceRepository } = makSut()
 
-        const executeSpy = jest.spyOn(getUserBalanceRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserBalanceRepository,
+            'execute',
+        )
 
         await sut.execute(user.id)
 
@@ -87,7 +92,10 @@ describe('GetUserBalanceUseCase', () => {
     it('should call getUserByIdRepository with correct params', async () => {
         const { sut, getUserByIdRepository } = makSut()
 
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        )
 
         await sut.execute(user.id)
 

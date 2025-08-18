@@ -46,7 +46,10 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should call getByUserIdRepository with correct params', async () => {
         const { sut, getUserByIdRepository } = makeSuit()
 
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        )
 
         await sut.execute(user.id)
 
@@ -56,7 +59,7 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should call getTransactionByUserIdRepository with correct params', async () => {
         const { sut, getTransactionByUserIdRepository } = makeSuit()
 
-        const executeSpy = jest.spyOn(
+        const executeSpy = import.meta.jest.spyOn(
             getTransactionByUserIdRepository,
             'execute',
         )
@@ -69,7 +72,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw UserNotFoundError if user not found', async () => {
         const { sut, getUserByIdRepository } = makeSuit()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockResolvedValueOnce(null)
 
         const promise = sut.execute(user.id)
 
@@ -79,9 +84,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw getUserByIdRepository throws', async () => {
         const { sut, getUserByIdRepository } = makeSuit()
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(user.id)
 
@@ -91,10 +96,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw getTransactionByUserIdRepository throws', async () => {
         const { sut, getTransactionByUserIdRepository } = makeSuit()
 
-        jest.spyOn(
-            getTransactionByUserIdRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(getTransactionByUserIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(user.id)
 

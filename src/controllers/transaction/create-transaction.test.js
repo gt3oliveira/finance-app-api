@@ -184,9 +184,9 @@ describe('CreateTransactionController', () => {
     it('retorna 404 se der UserNotFoundError no execute', async () => {
         const { sut, createTransactionUseCase } = makSut()
 
-        jest.spyOn(createTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        )
+        import.meta.jest
+            .spyOn(createTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError())
 
         const httpResponse = await sut.execute(httpRequest)
 
@@ -196,7 +196,10 @@ describe('CreateTransactionController', () => {
     it('Should call CreateTransactionUseCase with correct params', async () => {
         const { sut, createTransactionUseCase } = makSut()
 
-        const executeSpy = jest.spyOn(createTransactionUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            createTransactionUseCase,
+            'execute',
+        )
 
         await sut.execute(httpRequest)
 

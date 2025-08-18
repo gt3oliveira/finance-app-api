@@ -34,7 +34,10 @@ describe('UpdateTransactionUseCase', () => {
     it('Should call updateTransactionRepository with correct params', async () => {
         const { sut, updateTransactionRepository } = makeSut()
 
-        const executeSpy = jest.spyOn(updateTransactionRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            updateTransactionRepository,
+            'execute',
+        )
 
         await sut.execute(transaction.id, transaction.name)
 
@@ -47,10 +50,9 @@ describe('UpdateTransactionUseCase', () => {
     it('Should throw if updateTransactionRepository throws', async () => {
         const { sut, updateTransactionRepository } = makeSut()
 
-        jest.spyOn(
-            updateTransactionRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(updateTransactionRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(transaction.id, transaction.name)
 

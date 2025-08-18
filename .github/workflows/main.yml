@@ -18,6 +18,9 @@ jobs:
               with:
                   node-version: 20
 
+            - name: Create .env.test file
+              run: echo "DATABASE_URL=postgresql://postgres:password@localhost:5433" > .env.test
+
             - name: Install Dependencies
               run: npm ci --include=dev
 

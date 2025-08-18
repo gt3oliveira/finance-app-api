@@ -53,9 +53,9 @@ describe('GetUserBalanceController', () => {
     it('retorna 404 se der UserNotFoundError', async () => {
         const { sut, userBalanceUseCase } = makSut()
 
-        jest.spyOn(userBalanceUseCase, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        )
+        import.meta.jest
+            .spyOn(userBalanceUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError())
 
         const httpResponse = await sut.execute(httpRequest)
 
@@ -65,9 +65,9 @@ describe('GetUserBalanceController', () => {
     it('retorna 500 se der server error', async () => {
         const { sut, userBalanceUseCase } = makSut()
 
-        jest.spyOn(userBalanceUseCase, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(userBalanceUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const httpResponse = await sut.execute(httpRequest)
 
@@ -77,7 +77,7 @@ describe('GetUserBalanceController', () => {
     it('Should call UserBalanceUseCaseUseCase with correct params', async () => {
         const { sut, userBalanceUseCase } = makSut()
 
-        const executeSpy = jest.spyOn(userBalanceUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(userBalanceUseCase, 'execute')
 
         await sut.execute(httpRequest)
 

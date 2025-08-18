@@ -118,7 +118,7 @@ describe('CreateUserController', () => {
 
     it('observa se os params estão corretos para chamar o CreateUserUseCase', async () => {
         const { createUserController, createUserUseCase } = makeSut()
-        const executeSpy = jest.spyOn(createUserUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(createUserUseCase, 'execute')
 
         await createUserController.execute(httpRequest)
 
@@ -128,9 +128,11 @@ describe('CreateUserController', () => {
     it('retorna 400 se o CreateUserUseCase falhar', async () => {
         const { createUserController, createUserUseCase } = makeSut()
 
-        jest.spyOn(createUserUseCase, 'execute').mockImplementationOnce(() => {
-            throw new Error()
-        })
+        import.meta.jest
+            .spyOn(createUserUseCase, 'execute')
+            .mockImplementationOnce(() => {
+                throw new Error()
+            })
 
         const result = await createUserController.execute(httpRequest.body)
 
@@ -140,9 +142,9 @@ describe('CreateUserController', () => {
     it('retorna 400 se o CreateUserUseCase der EmailAlreadyInUseError', async () => {
         const { createUserController, createUserUseCase } = makeSut()
 
-        jest.spyOn(createUserUseCase, 'execute').mockRejectedValueOnce(
-            new EmailAlreadyInUseError(),
-        )
+        import.meta.jest
+            .spyOn(createUserUseCase, 'execute')
+            .mockRejectedValueOnce(new EmailAlreadyInUseError())
 
         const result = await createUserController.execute(httpRequest)
 
@@ -152,9 +154,9 @@ describe('CreateUserController', () => {
     it('retorna 500 se der server error', async () => {
         const { createUserController, createUserUseCase } = makeSut()
 
-        jest.spyOn(createUserUseCase, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(createUserUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const result = await createUserController.execute(httpRequest)
 

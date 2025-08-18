@@ -33,7 +33,10 @@ describe('DeleteUserUseCase', () => {
     it('should call DeleteUserRepository with correct params', async () => {
         const { sut, deleteUserRepository } = makSut()
 
-        const executeSpy = jest.spyOn(deleteUserRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            deleteUserRepository,
+            'execute',
+        )
 
         await sut.execute({
             id: user.id,
@@ -47,9 +50,9 @@ describe('DeleteUserUseCase', () => {
     it('should throw if DeleteUserRepository throws', async () => {
         const { sut, deleteUserRepository } = makSut()
 
-        jest.spyOn(deleteUserRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(deleteUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         const promise = sut.execute(user)
 
