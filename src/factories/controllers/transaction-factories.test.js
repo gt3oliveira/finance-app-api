@@ -11,7 +11,6 @@ import {
     makeUpdateTransactionController,
 } from './transaction'
 
-/* eslint-disable no-undef */
 describe('Transaction Controller Factories', () => {
     it('should return a CreateTransactionController', () => {
         expect(makeCreateTransactionController()).toBeInstanceOf(

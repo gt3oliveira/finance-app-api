@@ -1,6 +1,5 @@
 import { PasswordHasherAdapter } from './password-hasher'
 
-/* eslint-disable no-undef */
 describe('PasswordHasherAdapter', () => {
     it('should return a Password Hasher', async () => {
         const sut = new PasswordHasherAdapter()

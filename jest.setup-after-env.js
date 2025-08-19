@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { prisma } from './prisma/prisma'
 
 beforeEach(async () => {

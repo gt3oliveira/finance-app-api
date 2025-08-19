@@ -1,7 +1,6 @@
 import { IdGeneratorAdapter } from './id-generator'
 import validator from 'validator'
 
-/* eslint-disable no-undef */
 describe('IdGeneratorAdapter', () => {
     it('should return a uuid', () => {
         const sut = new IdGeneratorAdapter()

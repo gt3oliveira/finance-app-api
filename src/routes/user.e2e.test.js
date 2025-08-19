@@ -4,7 +4,6 @@ import { transaction, user } from '../tests/index.js'
 import { TransactionType } from '@prisma/client'
 import { faker } from '@faker-js/faker'
 
-/* eslint-disable no-undef */
 describe('User Routes', () => {
     it('POST /api/user return 201', async () => {
         const response = await request(app).post('/api/user').send({

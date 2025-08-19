@@ -1,7 +1,6 @@
 import { user } from '../../tests/index.js'
 import { DeleteUserUseCase } from './delete-user.js'
 
-/* eslint-disable no-undef */
 describe('DeleteUserUseCase', () => {
     class DeleteUserRepositoryStub {
         async execute() {

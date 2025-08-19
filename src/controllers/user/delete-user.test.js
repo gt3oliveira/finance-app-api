@@ -2,7 +2,6 @@ import { UserNotFoundError } from '../../errors/user.js'
 import { user } from '../../tests/index.js'
 import { DeleteUserController } from './delete-user.js'
 
-/* eslint-disable no-undef */
 describe('DeleteUserController', () => {
     class DeleteUserUseCaseStub {
         async execute() {

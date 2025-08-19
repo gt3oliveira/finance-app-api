@@ -2,7 +2,6 @@ import { TransactionNotFoundError } from '../../errors/transaction.js'
 import { transaction } from '../../tests/index.js'
 import { UpdateTransactionController } from './update-transaction.js'
 
-/* eslint-disable no-undef */
 describe('UpdateTransactionController', () => {
     class UpdateTransactionUseCaseStub {
         async execute() {

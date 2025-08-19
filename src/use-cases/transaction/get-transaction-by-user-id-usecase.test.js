@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { GetTransactionByUserIdUseCase } from './get-transaction-by-user-id.js'
 import { transaction, user } from '../../tests/index.js'
 import { UserNotFoundError } from '../../errors/user.js'

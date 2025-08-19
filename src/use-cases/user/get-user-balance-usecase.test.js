@@ -2,7 +2,6 @@ import { UserNotFoundError } from '../../errors/user.js'
 import { user, userBalance } from '../../tests/index.js'
 import { GetUserBalanceUseCase } from './get-user-balance.js'
 
-/* eslint-disable no-undef */
 describe('GetUserBalanceUseCase', () => {
     class getUserBalanceRepositoryStub {
         async execute() {

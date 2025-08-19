@@ -3,7 +3,6 @@ import { user as fakerUser } from '../../../tests/index'
 import { PostgresGetUserBalanceRepository } from './get-user-balance.js'
 import { TransactionType } from '@prisma/client'
 
-/* eslint-disable no-undef */
 describe('GetUserBalanceRepository', () => {
     it('should get user balance', async () => {
         const user = await prisma.user.create({

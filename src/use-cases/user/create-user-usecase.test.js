@@ -2,7 +2,6 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { user } from '../../tests/index.js'
 import { CreateUserUseCase } from './create-user.js'
 
-/* eslint-disable no-undef */
 describe('CreateUserUseCase', () => {
     class getUserByEmailRepositoryStub {
         async execute() {

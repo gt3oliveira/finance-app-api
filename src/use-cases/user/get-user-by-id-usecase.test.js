@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { user } from '../../tests/index.js'
 import { GetUserByIdUseCase } from './get-user-by-id.js'
 

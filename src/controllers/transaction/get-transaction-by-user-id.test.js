@@ -2,7 +2,6 @@ import { transaction } from '../../tests/index.js'
 import { GetTransactionByUserIdController } from './get-transaction-by-user-id.js'
 import { UserNotFoundError } from '../../errors/user.js'
 
-/* eslint-disable no-undef */
 describe('GetTransactionByUserIdController', () => {
     class GetTransactionByUserIdUseCaseStub {
         async execute() {

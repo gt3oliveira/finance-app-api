@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { user } from '../../tests/index.js'
 import { UpdateUserUseCase } from './update-user.js'

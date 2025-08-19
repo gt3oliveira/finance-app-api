@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { UserNotFoundError } from '../../errors/user.js'
 import { transaction, user } from '../../tests/index.js'
 import { CreateTransactionUseCase } from './create-transaction.js'

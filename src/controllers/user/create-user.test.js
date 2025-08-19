@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 import { CreateUserController } from './create-user.js'
 import { user } from '../../tests/index.js'

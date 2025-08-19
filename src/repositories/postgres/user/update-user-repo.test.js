@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library.js'
 import { prisma } from '../../../../prisma/prisma.js'
 import { user as fakeUser } from '../../../tests/index'

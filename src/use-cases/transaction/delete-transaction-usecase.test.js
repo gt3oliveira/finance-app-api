@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { transaction } from '../../tests/index.js'
 import { DeleteTransactionUseCase } from './delete-transaction.js'
 

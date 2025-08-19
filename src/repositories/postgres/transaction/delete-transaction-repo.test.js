@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { PostgresDeleteTransactionRepository } from './delete-transaction.js'
 import { prisma } from '../../../../prisma/prisma.js'
 import { transaction, user } from '../../../tests/index.js'

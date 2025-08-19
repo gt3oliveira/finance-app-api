@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { app } from '../app.js'
 import request from 'supertest'
 import { transaction, user as fakerUser } from '../tests/index.js'

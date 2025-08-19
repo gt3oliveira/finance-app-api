@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { PostgresUpdateTransactionRepository } from './update-transaction.js'
 import { prisma } from '../../../../prisma/prisma.js'
 import { user, transaction } from '../../../tests/index.js'

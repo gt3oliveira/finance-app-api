@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { GetUserBalanceController } from './get-user-balance.js'
 import { user } from '../../tests/index.js'
 import { faker } from '@faker-js/faker'

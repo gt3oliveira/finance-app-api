@@ -2,7 +2,6 @@ import { DeleteTransactionController } from './delete-transaction.js'
 import { transaction } from '../../tests/index.js'
 import { TransactionNotFoundError } from '../../errors/transaction.js'
 
-/* eslint-disable no-undef */
 describe('DeleteTransactionController', () => {
     class deleteTransactionUseCaseStub {
         async execute() {

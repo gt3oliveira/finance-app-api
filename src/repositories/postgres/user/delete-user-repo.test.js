@@ -4,7 +4,6 @@ import { user } from '../../../tests'
 import { PostgresDeleteUserRepository } from './delete-user.js'
 import { UserNotFoundError } from '../../../errors/user.js'
 
-/* eslint-disable no-undef */
 describe('DeleteUserRepository', () => {
     it('should delete a user', async () => {
         await prisma.user.create({ data: user })

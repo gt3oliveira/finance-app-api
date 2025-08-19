@@ -2,7 +2,6 @@ import { CreateTransactionController } from './create-transaction.js'
 import { UserNotFoundError } from '../../errors/user.js'
 import { transaction } from '../../tests/index.js'
 
-/* eslint-disable no-undef */
 describe('CreateTransactionController', () => {
     class createTransactionUseCaseStub {
         async execute() {

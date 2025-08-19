@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { prisma } from '../../../../prisma/prisma.js'
 import { user as fakeUser } from '../../../tests/index'
 import { PostgresGetUserByIdRepository } from './get-user-by-id.js'

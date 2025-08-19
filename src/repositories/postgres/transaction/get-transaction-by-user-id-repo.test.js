@@ -3,7 +3,6 @@ import { user, transaction } from '../../../tests/index'
 import { prisma } from '../../../../prisma/prisma.js'
 import dayjs from 'dayjs'
 
-/* eslint-disable no-undef */
 describe('GetTransactionByUserIdRepository', () => {
     it('should get transaction by user id', async () => {
         const sut = new PostgresGetTransactionByUserIdRepository()

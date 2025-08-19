@@ -2,7 +2,6 @@ import { PostgresCreateUserRepository } from './create-user.js'
 import { user } from '../../../tests/index.js'
 import { prisma } from '../../../../prisma/prisma.js'
 
-/* eslint-disable no-undef */
 describe('CreateUserRepository', () => {
     it('should create a user', async () => {
         const sut = new PostgresCreateUserRepository()
