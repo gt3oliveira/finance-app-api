@@ -24,7 +24,7 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .get(`/api/user/${createdUser.id}`)
+            .get(`/api/user`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
@@ -40,7 +40,7 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .patch(`/api/user/${createdUser.id}`)
+            .patch(`/api/user`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 first_name: user.first_name,
@@ -65,7 +65,7 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .delete(`/api/user/${createdUser.id}`)
+            .delete(`/api/user`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
@@ -105,7 +105,7 @@ describe('User Routes', () => {
         })
 
         const response = await request(app)
-            .get(`/api/user/${createdUser.id}/balance`)
+            .get(`/api/user/balance`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
