@@ -10,12 +10,13 @@ GET http://localhost:8080/api/users
 # Get user by ID
 GET http://localhost:8080/api/user/{{userId}}
 # GET http://localhost:8080/api/user/1234
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MDAzNzQsImV4cCI6MTc1NTgwMTI3NH0.wKXt4ISg-Ecf25DR7N4LnMrGVaYGWIUPaQKgD_7eONk
 
 ###
 
 # Get balance user
 GET http://localhost:8080/api/user/{{userId}}/balance
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MDAzNzQsImV4cCI6MTc1NTgwMTI3NH0.wKXt4ISg-Ecf25DR7N4LnMrGVaYGWIUPaQKgD_7eONk
 ###
 
 # Create a new user
@@ -38,6 +39,16 @@ content-type: application/json
 {
     "email": "gt3oliveira@fsc.com",
     "password" : "1q2w3e"
+}
+
+###
+# Login user
+POST http://localhost:8080/api/user/login
+content-type: application/json
+
+{
+    "email": "gt3oliveira@fsc.com",
+    "password": "1q2w3e"
 }
 
 ###

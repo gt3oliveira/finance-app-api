@@ -7,19 +7,20 @@ import {
     makeLoginUserController,
     makeUpdateUserController,
 } from '../factories/controllers/user.js'
+import { auth } from '../middlewares/auth.js'
 
 export const userRouter = Router()
 
 // Get a user by ID
-userRouter.get('/:userId', async (req, res) => {
+userRouter.get('/:userId', auth, async (req, res) => {
     const getUserByIdController = makeGetUserByIdController()
-
+    // console.log('Usuario autenticado:', req.userId)
     const { statusCode, body } = await getUserByIdController.execute(req)
 
     res.status(statusCode).send(body)
 })
 
-userRouter.get('/:userId/balance', async (req, res) => {
+userRouter.get('/:userId/balance', auth, async (req, res) => {
     const getUserBalanceController = makeGetUserBalanceController()
 
     const { statusCode, body } = await getUserBalanceController.execute(req)
@@ -37,7 +38,7 @@ userRouter.post('/', async (req, res) => {
 })
 
 // Update a user
-userRouter.patch('/:userId', async (req, res) => {
+userRouter.patch('/:userId', auth, async (req, res) => {
     const updateUserController = makeUpdateUserController()
 
     const { statusCode, body } = await updateUserController.execute(req)
@@ -46,7 +47,7 @@ userRouter.patch('/:userId', async (req, res) => {
 })
 
 // Delete a user
-userRouter.delete('/:userId', async (req, res) => {
+userRouter.delete('/:userId', auth, async (req, res) => {
     const deleteUserController = makeDeleteUserController()
 
     const { statusCode, body } = await deleteUserController.execute(req)
