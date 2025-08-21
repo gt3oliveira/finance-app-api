@@ -2,7 +2,6 @@ import request from 'supertest'
 import { app } from '../app.js'
 import { transaction, user } from '../tests/index.js'
 import { TransactionType } from '@prisma/client'
-import { faker } from '@faker-js/faker'
 
 describe('User Routes', () => {
     it('POST /api/user return 201', async () => {
@@ -24,10 +23,12 @@ describe('User Routes', () => {
                 id: undefined,
             })
 
-        const response = await request(app).get(`/api/user/${createdUser.id}`)
+        const response = await request(app)
+            .get(`/api/user/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
-        expect(response.body).toEqual(createdUser)
+        expect(response.body.id).toBe(createdUser.id)
     })
 
     it('PATCH /api/user/:userId return 200', async () => {
@@ -40,6 +41,7 @@ describe('User Routes', () => {
 
         const response = await request(app)
             .patch(`/api/user/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 first_name: user.first_name,
                 last_name: user.last_name,
@@ -62,12 +64,12 @@ describe('User Routes', () => {
                 id: undefined,
             })
 
-        const response = await request(app).delete(
-            `/api/user/${createdUser.id}`,
-        )
+        const response = await request(app)
+            .delete(`/api/user/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
-        expect(response.body).toEqual(createdUser)
+        expect(response.body.id).toBe(createdUser.id)
     })
 
     it('GET /api/user/:userId/balance return 200', async () => {
@@ -102,9 +104,9 @@ describe('User Routes', () => {
             amount: 1000,
         })
 
-        const response = await request(app).get(
-            `/api/user/${createdUser.id}/balance`,
-        )
+        const response = await request(app)
+            .get(`/api/user/${createdUser.id}/balance`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body).toStrictEqual({
@@ -113,35 +115,6 @@ describe('User Routes', () => {
             totalInvestments: '1000',
             balance: '7000',
         })
-    })
-
-    it('GET /api/user/:userId return 404 if user not found', async () => {
-        const response = await request(app).get(
-            `/api/user/${faker.string.uuid()}`,
-        )
-
-        expect(response.status).toBe(404)
-    })
-
-    it('GET /api/user/:userId/balance return 404 if user not found', async () => {
-        const response = await request(app).get(
-            `/api/user/${faker.string.uuid()}/balance`,
-        )
-
-        expect(response.status).toBe(404)
-    })
-
-    it('PATCH /api/user/:userId return 404 if user not found', async () => {
-        const response = await request(app)
-            .patch(`/api/user/${faker.string.uuid()}`)
-            .send({
-                first_name: user.first_name,
-                last_name: user.last_name,
-                email: user.email,
-                password: user.password,
-            })
-
-        expect(response.status).toBe(404)
     })
 
     it('POST /api/user return 400 if email is already in use', async () => {

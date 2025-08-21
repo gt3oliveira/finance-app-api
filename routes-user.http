@@ -4,19 +4,20 @@ GET http://localhost:8080/api/users
 
 # Variable for user ID
 @userId = 4fea194e-0834-4b94-810f-3112b959de0d
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MmM5NjgwYi1jMjdhLTRiMzgtOThlYS0xYzQwMzNhNTFiNmUiLCJpYXQiOjE3NTU4MDU0NzYsImV4cCI6MTc1NTgwNjM3Nn0.6TONAclC4sTNtTn2YrnQx-ik6q7Iy6EtsH4dK3HTaE0
 
 ###
 
 # Get user by ID
 GET http://localhost:8080/api/user/{{userId}}
 # GET http://localhost:8080/api/user/1234
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MDAzNzQsImV4cCI6MTc1NTgwMTI3NH0.wKXt4ISg-Ecf25DR7N4LnMrGVaYGWIUPaQKgD_7eONk
+Authorization: Bearer {{jwtToken}}
 
 ###
 
 # Get balance user
 GET http://localhost:8080/api/user/{{userId}}/balance
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MDAzNzQsImV4cCI6MTc1NTgwMTI3NH0.wKXt4ISg-Ecf25DR7N4LnMrGVaYGWIUPaQKgD_7eONk
+Authorization: Bearer {{jwtToken}}
 ###
 
 # Create a new user
@@ -24,9 +25,9 @@ POST http://localhost:8080/api/user
 content-type: application/json
 
 {
-    "first_name": "Amanda",
-    "last_name": "Tavares",
-    "email": "amanda@fsc.com",
+    "first_name": "John",
+    "last_name": "Dee",
+    "email": "john@fsc.com",
     "password": "1q2w3e"
 }
 
