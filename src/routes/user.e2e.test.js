@@ -186,4 +186,23 @@ describe('User Routes', () => {
 
         expect(response.status).toBe(400)
     })
+
+    it('POST /api/user/login return 200 with tokens and user credentails', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/user')
+            .send({
+                ...user,
+                id: undefined,
+            })
+
+        const response = await request(app).post('/api/user/login').send({
+            email: createdUser.email,
+            password: user.password,
+        })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.tokens.accessToken).toBeDefined()
+        expect(response.body.tokens.refreshToken).toBeDefined()
+        expect(response.body.id).toEqual(createdUser.id)
+    })
 })
