@@ -3,20 +3,20 @@ GET http://localhost:8080/api/users
 ###
 
 # Variable for user ID
-@userId = 4fea194e-0834-4b94-810f-3112b959de0d
-@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MmM5NjgwYi1jMjdhLTRiMzgtOThlYS0xYzQwMzNhNTFiNmUiLCJpYXQiOjE3NTU4MDU0NzYsImV4cCI6MTc1NTgwNjM3Nn0.6TONAclC4sTNtTn2YrnQx-ik6q7Iy6EtsH4dK3HTaE0
+# @userId = 4fea194e-0834-4b94-810f-3112b959de0d
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MDg3MTYsImV4cCI6MTc1NTgwOTYxNn0.2Eh6xpttQ8IyEaHZ9aaTUTPpt1OFjEa5hXriiXPaVo0
 
 ###
 
 # Get user by ID
-GET http://localhost:8080/api/user/{{userId}}
+GET http://localhost:8080/api/user
 # GET http://localhost:8080/api/user/1234
 Authorization: Bearer {{jwtToken}}
 
 ###
 
 # Get balance user
-GET http://localhost:8080/api/user/{{userId}}/balance
+GET http://localhost:8080/api/user/balance
 Authorization: Bearer {{jwtToken}}
 ###
 
@@ -34,11 +34,12 @@ content-type: application/json
 ###
 
 # Update user by ID
-PATCH  http://localhost:8080/api/user/{{userId}}
+PATCH  http://localhost:8080/api/user
+Authorization: Bearer {{jwtToken}}
 content-type: application/json
 
 {
-    "email": "gt3oliveira@fsc.com",
+    "email": "gt3@fsc.com",
     "password" : "1q2w3e"
 }
 
@@ -48,11 +49,12 @@ POST http://localhost:8080/api/user/login
 content-type: application/json
 
 {
-    "email": "gt3oliveira@fsc.com",
+    "email": "gt3@fsc.com",
     "password": "1q2w3e"
 }
 
 ###
 
 # Delete user by ID
-DELETE http://localhost:8080/api/user/{{userId}}
+DELETE http://localhost:8080/api/user
+Authorization: Bearer {{jwtToken}}

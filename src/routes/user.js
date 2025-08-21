@@ -12,18 +12,28 @@ import { auth } from '../middlewares/auth.js'
 export const userRouter = Router()
 
 // Get a user by ID
-userRouter.get('/:userId', auth, async (req, res) => {
+userRouter.get('/', auth, async (req, res) => {
     const getUserByIdController = makeGetUserByIdController()
     // console.log('Usuario autenticado:', req.userId)
-    const { statusCode, body } = await getUserByIdController.execute(req)
+    const { statusCode, body } = await getUserByIdController.execute({
+        ...req,
+        params: {
+            userId: req.userId,
+        },
+    })
 
     res.status(statusCode).send(body)
 })
 
-userRouter.get('/:userId/balance', auth, async (req, res) => {
+userRouter.get('/balance', auth, async (req, res) => {
     const getUserBalanceController = makeGetUserBalanceController()
 
-    const { statusCode, body } = await getUserBalanceController.execute(req)
+    const { statusCode, body } = await getUserBalanceController.execute({
+        ...req,
+        params: {
+            userId: req.userId,
+        },
+    })
 
     res.status(statusCode).send(body)
 })
@@ -38,19 +48,29 @@ userRouter.post('/', async (req, res) => {
 })
 
 // Update a user
-userRouter.patch('/:userId', auth, async (req, res) => {
+userRouter.patch('/', auth, async (req, res) => {
     const updateUserController = makeUpdateUserController()
 
-    const { statusCode, body } = await updateUserController.execute(req)
+    const { statusCode, body } = await updateUserController.execute({
+        ...req,
+        params: {
+            userId: req.userId,
+        },
+    })
 
     res.status(statusCode).send(body)
 })
 
 // Delete a user
-userRouter.delete('/:userId', auth, async (req, res) => {
+userRouter.delete('/', auth, async (req, res) => {
     const deleteUserController = makeDeleteUserController()
 
-    const { statusCode, body } = await deleteUserController.execute(req)
+    const { statusCode, body } = await deleteUserController.execute({
+        ...req,
+        params: {
+            userId: req.userId,
+        },
+    })
 
     res.status(statusCode).send(body)
 })
