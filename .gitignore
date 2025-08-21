@@ -1,5 +1,6 @@
 node_modules
 .postgres
+.github
 
 .env
 .env.test
