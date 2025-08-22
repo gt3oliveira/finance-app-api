@@ -80,29 +80,38 @@ describe('User Routes', () => {
                 id: undefined,
             })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: transaction.name,
-            date: transaction.date,
-            type: TransactionType.EARNING,
-            amount: 10000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: transaction.name,
+                date: transaction.date,
+                type: TransactionType.EARNING,
+                amount: 10000,
+            })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: transaction.name,
-            date: transaction.date,
-            type: TransactionType.EXPENSE,
-            amount: 2000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: transaction.name,
+                date: transaction.date,
+                type: TransactionType.EXPENSE,
+                amount: 2000,
+            })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: transaction.name,
-            date: transaction.date,
-            type: TransactionType.INVESTMENT,
-            amount: 1000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: transaction.name,
+                date: transaction.date,
+                type: TransactionType.INVESTMENT,
+                amount: 1000,
+            })
 
         const response = await request(app)
             .get(`/api/user/balance`)

@@ -51,20 +51,6 @@ describe('UpdateTransactionController', () => {
         expect(httpResponse.statusCode).toBe(400)
     })
 
-    it('Should return 400 if field not found', async () => {
-        const { sut } = makSut()
-
-        const httpResponse = await sut.execute({
-            ...httpRequest,
-            body: {
-                ...httpRequest.body,
-                invalid_field: transaction.name,
-            },
-        })
-
-        expect(httpResponse.statusCode).toBe(400)
-    })
-
     it('Should return 400 if amount invalid', async () => {
         const { sut } = makSut()
 

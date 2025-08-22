@@ -28,7 +28,7 @@ describe('CreateUserUseCase', () => {
     }
 
     class tokenGeneratorAdapterStub {
-        generate() {
+        execute() {
             return {
                 accessToken: 'generated-access-token',
                 refreshToken: 'generated-refresh-token',
