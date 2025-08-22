@@ -1,25 +1,26 @@
 # Variable for user ID
-@userId = 4fea194e-0834-4b94-810f-3112b959de0d
-@transactionId = 68522b8a-488d-4e19-9965-ae63e1b2c329
+@jwtToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4MTMyMTcsImV4cCI6MTc1NTgxNDExN30.lVw85NCsmimikbBTIb2cmLziqHaJYy483wkHuV0j6F4
+@transactionId = ecbd7b10-f1ce-462d-a36c-5f06e5d82d97
 
 ###
 
 # Get transaction by ID
-GET http://localhost:8080/api/transactions?userId={{userId}}
+GET http://localhost:8080/api/transactions
 # GET http://localhost:8080/api/user/1234
+Authorization: Bearer {{jwtToken}}
 
 ###
 
 # Create a new transaction
 POST http://localhost:8080/api/transactions
+Authorization: Bearer {{jwtToken}}
 content-type: application/json
 
 {
-    "user_id": "4fea194e-0834-4b94-810f-3112b959de0d",
-    "name": "Betano",
+    "name": "Salário",
     "date": "2025-08-02T00:00:00.000Z",
-    "amount": 600,
-    "type": "INVESTMENT"
+    "amount": 5000,
+    "type": "EARNING"
 }
 
 // ['EARNING', 'EXPENSE', 'INVESTMENT']
@@ -27,10 +28,11 @@ content-type: application/json
 
 # Update transaction by ID
 PATCH  http://localhost:8080/api/transactions/{{transactionId}}
+Authorization: Bearer {{jwtToken}}
 content-type: application/json
 
 {
-    "amount": 5000
+    "name": "Trade Stocks Updated"
 }
 
 // ['EARNING', 'EXPENSE', 'INVESTMENT']

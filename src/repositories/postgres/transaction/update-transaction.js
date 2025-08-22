@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library.js'
 import { prisma } from '../../../../prisma/prisma.js'
-import { TransactionNotFoundError } from '../../../errors/transaction.js'
+import { TransactionNotFoundError } from '../../../errors/index.js'
 
 export class PostgresUpdateTransactionRepository {
     async execute(transactionId, updateTransactionParams) {

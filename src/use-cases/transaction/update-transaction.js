@@ -1,15 +1,22 @@
+import { ForbiddenError } from '../../errors/index.js'
+
 export class UpdateTransactionUseCase {
-    constructor(updateTransactionRepository) {
+    constructor(updateTransactionRepository, getTransactionByIdRepository) {
         this.updateTransactionRepository = updateTransactionRepository
+        this.getTransactionByIdRepository = getTransactionByIdRepository
     }
 
     async execute(transactionId, params) {
-        const updatedTransaction =
-            await this.updateTransactionRepository.execute(
-                transactionId,
-                params,
-            )
+        const transaction =
+            await this.getTransactionByIdRepository.execute(transactionId)
 
-        return updatedTransaction
+        if (params?.user_id && transaction.user_id !== params.user_id) {
+            throw new ForbiddenError()
+        }
+
+        return await this.updateTransactionRepository.execute(
+            transactionId,
+            params,
+        )
     }
 }

@@ -10,12 +10,12 @@ export const unauthorized = () => ({
     },
 })
 
-// export const forbidden = () => ({
-//     statusCode: 403,
-//     body: {
-//         message: 'Forbidden',
-//     },
-// })
+export const forbidden = () => ({
+    statusCode: 403,
+    body: {
+        message: 'Forbidden',
+    },
+})
 
 export const created = (body) => ({
     statusCode: 201,
