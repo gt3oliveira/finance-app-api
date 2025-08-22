@@ -187,4 +187,23 @@ describe('User Routes', () => {
         expect(response.body.tokens.refreshToken).toBeDefined()
         expect(response.body.id).toEqual(createdUser.id)
     })
+
+    it('POST /api/user/refresh-token return 200 with new tokens', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/user')
+            .send({
+                ...user,
+                id: undefined,
+            })
+
+        const response = await request(app)
+            .post('/api/user/refresh-token')
+            .send({
+                refreshToken: createdUser.tokens.refreshToken,
+            })
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.accessToken).toBeDefined()
+        expect(response.body.refreshToken).toBeDefined()
+    })
 })
