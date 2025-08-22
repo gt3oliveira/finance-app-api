@@ -5,6 +5,7 @@ import {
     makeGetUserBalanceController,
     makeGetUserByIdController,
     makeLoginUserController,
+    makeRefreshTokenController,
     makeUpdateUserController,
 } from '../factories/controllers/user.js'
 import { auth } from '../middlewares/auth.js'
@@ -14,7 +15,7 @@ export const userRouter = Router()
 // Get a user by ID
 userRouter.get('/', auth, async (req, res) => {
     const getUserByIdController = makeGetUserByIdController()
-    // console.log('Usuario autenticado:', req.userId)
+
     const { statusCode, body } = await getUserByIdController.execute({
         ...req,
         params: {
@@ -79,6 +80,14 @@ userRouter.post('/login', async (req, res) => {
     const loginUserController = makeLoginUserController()
 
     const { statusCode, body } = await loginUserController.execute(req)
+
+    res.status(statusCode).send(body)
+})
+
+userRouter.post('/refresh-token', async (req, res) => {
+    const refreshTokenController = makeRefreshTokenController()
+
+    const { statusCode, body } = await refreshTokenController.execute(req)
 
     res.status(statusCode).send(body)
 })

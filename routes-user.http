@@ -54,6 +54,13 @@ content-type: application/json
 }
 
 ###
+POST http://localhost:8080/api/user/refresh-token
+content-type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ZmVhMTk0ZS0wODM0LTRiOTQtODEwZi0zMTEyYjk1OWRlMGQiLCJpYXQiOjE3NTU4OTkxMTUsImV4cCI6MTc1ODQ5MTExNX0.rMbt8_bk5TQprGj4O1sIjZrdY-N72mMzKgru8e-BTC0"
+}
+###
 
 # Delete user by ID
 DELETE http://localhost:8080/api/user

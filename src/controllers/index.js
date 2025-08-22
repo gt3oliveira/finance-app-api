@@ -5,6 +5,7 @@ export * from './user/update-user.js'
 export * from './user/delete-user.js'
 export * from './user/get-user-balance.js'
 export * from './user/login-user.js'
+export * from './user/refresh-token.js'
 
 // Transaction related controllers
 export * from './transaction/create-transaction.js'

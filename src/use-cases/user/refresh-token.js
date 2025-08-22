@@ -1,4 +1,4 @@
-import { UnauthorizedError } from '../../errors'
+import { UnauthorizedError } from '../../errors/index.js'
 
 export class RefreshTokenUseCase {
     constructor(tokensGeneratorAdapter, tokenVerifierAdapter) {
