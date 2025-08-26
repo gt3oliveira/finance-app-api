@@ -22,6 +22,8 @@ describe('GetTransactionByUserIdController', () => {
     const httpRequest = {
         query: {
             userId: transaction.user_id,
+            from: '2024-01-01',
+            to: '2024-01-31',
         },
     }
 

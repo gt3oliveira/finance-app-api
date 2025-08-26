@@ -3,6 +3,9 @@ import request from 'supertest'
 import { transaction, user as fakerUser } from '../tests/index.js'
 
 describe('Transaction Routes E2E Test', () => {
+    const from = '2024-01-01'
+    const to = '2024-01-31'
+
     it('POST /api/transactions should to create a transaction', async () => {
         const user = await request(app)
             .post('/api/user')
@@ -35,6 +38,7 @@ describe('Transaction Routes E2E Test', () => {
                 ...fakerUser,
                 id: undefined,
             })
+
         await request(app)
             .post('/api/transactions')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
@@ -47,7 +51,7 @@ describe('Transaction Routes E2E Test', () => {
             })
 
         const response = await request(app)
-            .get(`/api/transactions`)
+            .get(`/api/transactions?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
