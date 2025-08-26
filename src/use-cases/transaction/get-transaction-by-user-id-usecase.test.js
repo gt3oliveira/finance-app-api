@@ -33,6 +33,9 @@ describe('GetTransactionByUserIdUseCase', () => {
         }
     }
 
+    const from = '2024-01-01'
+    const to = '2024-01-31'
+
     it('should if get transaction by user id on successfully', async () => {
         const { sut } = makeSuit()
 
@@ -63,9 +66,9 @@ describe('GetTransactionByUserIdUseCase', () => {
             'execute',
         )
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
-        expect(executeSpy).toHaveBeenCalledWith(user.id)
+        expect(executeSpy).toHaveBeenCalledWith(user.id, from, to)
     })
 
     it('should throw UserNotFoundError if user not found', async () => {
