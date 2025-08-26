@@ -32,3 +32,9 @@ export const updateTransactionSchema = createTransactionSchema
     .strict({
         message: 'Some provided fields is not allowed.',
     })
+
+export const getTransactionsByUserIdSchema = z.object({
+    user_id: z.string().uuid({ message: 'Invalid UUID format' }),
+    from: z.string().date(),
+    to: z.string().date(),
+})
