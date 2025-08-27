@@ -4,6 +4,9 @@ import { PostgresGetUserBalanceRepository } from './get-user-balance.js'
 import { TransactionType } from '@prisma/client'
 
 describe('GetUserBalanceRepository', () => {
+    const from = '2024-01-01'
+    const to = '2024-01-31'
+
     it('should get user balance', async () => {
         const user = await prisma.user.create({
             data: fakerUser,
@@ -14,21 +17,21 @@ describe('GetUserBalanceRepository', () => {
                 {
                     user_id: user.id,
                     name: 'Salario',
-                    date: new Date(),
+                    date: new Date(from),
                     type: 'EARNING',
                     amount: 200,
                 },
                 {
                     user_id: user.id,
                     name: 'Compras',
-                    date: new Date(),
+                    date: new Date(to),
                     type: 'EXPENSE',
                     amount: 50,
                 },
                 {
                     user_id: user.id,
                     name: 'Investimentos',
-                    date: new Date(),
+                    date: new Date(from),
                     type: 'INVESTMENT',
                     amount: 50,
                 },
@@ -37,7 +40,7 @@ describe('GetUserBalanceRepository', () => {
 
         const sut = new PostgresGetUserBalanceRepository()
 
-        const result = await sut.execute(user.id)
+        const result = await sut.execute(user.id, from, to)
 
         expect(result.totalEarnings.toString()).toBe('200')
         expect(result.totalExpenses.toString()).toBe('50')
@@ -56,13 +59,17 @@ describe('GetUserBalanceRepository', () => {
             'aggregate',
         )
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
         expect(executeSpy).toHaveBeenCalledTimes(3)
         expect(executeSpy).toHaveBeenCalledWith({
             where: {
                 user_id: user.id,
                 type: TransactionType.EARNING,
+                date: {
+                    gte: new Date(from),
+                    lte: new Date(to),
+                },
             },
             _sum: {
                 amount: true,
@@ -73,6 +80,10 @@ describe('GetUserBalanceRepository', () => {
             where: {
                 user_id: user.id,
                 type: TransactionType.EXPENSE,
+                date: {
+                    gte: new Date(from),
+                    lte: new Date(to),
+                },
             },
             _sum: {
                 amount: true,
@@ -83,6 +94,10 @@ describe('GetUserBalanceRepository', () => {
             where: {
                 user_id: user.id,
                 type: TransactionType.INVESTMENT,
+                date: {
+                    gte: new Date(from),
+                    lte: new Date(to),
+                },
             },
             _sum: {
                 amount: true,
@@ -96,7 +111,7 @@ describe('GetUserBalanceRepository', () => {
             .spyOn(prisma.transaction, 'aggregate')
             .mockRejectedValueOnce(new Error())
 
-        const promise = sut.execute(fakerUser.id)
+        const promise = sut.execute(fakerUser.id, from, to)
 
         await expect(promise).rejects.toThrow()
     })
