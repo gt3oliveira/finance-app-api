@@ -22,6 +22,7 @@ describe('DeleteTransactionController', () => {
     const httpRequest = {
         params: {
             transactionId: transaction.id,
+            user_id: transaction.user_id,
         },
     }
 
@@ -83,6 +84,7 @@ describe('DeleteTransactionController', () => {
 
         expect(executeSpy).toHaveBeenCalledWith(
             httpRequest.params.transactionId,
+            httpRequest.params.user_id,
         )
     })
 })
