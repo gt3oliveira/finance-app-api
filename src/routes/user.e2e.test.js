@@ -73,6 +73,8 @@ describe('User Routes', () => {
     })
 
     it('GET /api/user/:userId/balance return 200', async () => {
+        const from = '2024-01-01'
+        const to = '2024-01-31'
         const { body: createdUser } = await request(app)
             .post('/api/user')
             .send({
@@ -81,12 +83,12 @@ describe('User Routes', () => {
             })
 
         await request(app)
-            .post('/api/transactions')
+            .post(`/api/transactions`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
                 name: transaction.name,
-                date: transaction.date,
+                date: new Date(from),
                 type: TransactionType.EARNING,
                 amount: 10000,
             })
@@ -97,7 +99,7 @@ describe('User Routes', () => {
             .send({
                 user_id: createdUser.id,
                 name: transaction.name,
-                date: transaction.date,
+                date: new Date(from),
                 type: TransactionType.EXPENSE,
                 amount: 2000,
             })
@@ -108,13 +110,13 @@ describe('User Routes', () => {
             .send({
                 user_id: createdUser.id,
                 name: transaction.name,
-                date: transaction.date,
+                date: new Date(to),
                 type: TransactionType.INVESTMENT,
                 amount: 1000,
             })
 
         const response = await request(app)
-            .get(`/api/user/balance`)
+            .get(`/api/user/balance?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)

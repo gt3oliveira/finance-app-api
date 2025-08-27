@@ -27,6 +27,10 @@ describe('GetUserBalanceController', () => {
         params: {
             userId: user.id,
         },
+        query: {
+            from: '2024-01-01',
+            to: '2024-01-31',
+        },
     }
 
     it('retorna 200 se o balanço for retornado', async () => {
@@ -43,6 +47,10 @@ describe('GetUserBalanceController', () => {
         const httpResponse = await sut.execute({
             params: {
                 userId: 'invalid_id',
+            },
+            query: {
+                from: '2024-01-01',
+                to: '2024-01-31',
             },
         })
 
@@ -80,6 +88,10 @@ describe('GetUserBalanceController', () => {
 
         await sut.execute(httpRequest)
 
-        expect(executeSpy).toHaveBeenCalledWith(httpRequest.params.userId)
+        expect(executeSpy).toHaveBeenCalledWith(
+            httpRequest.params.userId,
+            httpRequest.query.from,
+            httpRequest.query.to,
+        )
     })
 })
