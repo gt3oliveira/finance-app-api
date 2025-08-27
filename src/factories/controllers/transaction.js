@@ -51,6 +51,7 @@ export const makeUpdateTransactionController = () => {
 export const makeDeleteTransactionController = () => {
     const deleteTransactionUseCase = new DeleteTransactionUseCase(
         new PostgresDeleteTransactionRepository(),
+        new PostgresGetTransactionByIdRepository(),
     )
 
     return new DeleteTransactionController(deleteTransactionUseCase)

@@ -3,10 +3,12 @@ import { TransactionNotFoundError } from '../../errors/transaction.js'
 import { getTransactionsParamsSchema } from '../../schemas/transaction.js'
 import {
     badRequest,
+    forbidden,
     ok,
     serverError,
     transactionNotFound,
 } from '../helpers/index.js'
+import { ForbiddenError } from '../../errors/user.js'
 
 export class DeleteTransactionController {
     constructor(deleteTransactionUseCase) {
@@ -41,6 +43,10 @@ export class DeleteTransactionController {
 
             if (error instanceof TransactionNotFoundError) {
                 return transactionNotFound()
+            }
+
+            if (error instanceof ForbiddenError) {
+                return forbidden()
             }
 
             return serverError()
