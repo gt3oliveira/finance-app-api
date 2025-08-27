@@ -45,7 +45,7 @@ describe('Transaction Routes E2E Test', () => {
             .send({
                 user_id: createdUser.id,
                 name: transaction.name,
-                date: transaction.date,
+                date: new Date(from),
                 type: transaction.type,
                 amount: transaction.amount,
             })

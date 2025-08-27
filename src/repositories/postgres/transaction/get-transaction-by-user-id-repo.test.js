@@ -4,14 +4,19 @@ import { prisma } from '../../../../prisma/prisma.js'
 import dayjs from 'dayjs'
 
 describe('GetTransactionByUserIdRepository', () => {
+    const from = '2023-01-01'
+    const to = '2023-12-31'
+
     it('should get transaction by user id', async () => {
+        const date = '2023-01-02'
+        transaction.date = new Date(date)
         const sut = new PostgresGetTransactionByUserIdRepository()
         await prisma.user.create({ data: user })
         await prisma.transaction.create({
             data: { ...transaction, user_id: user.id },
         })
 
-        const result = await sut.execute(user.id)
+        const result = await sut.execute(user.id, from, to)
 
         expect(result.length).toBe(1)
         expect(result[0].id).toBe(transaction.id)
@@ -30,6 +35,8 @@ describe('GetTransactionByUserIdRepository', () => {
     })
 
     it('should call Prisma with correct params', async () => {
+        const date = '2023-01-02'
+        transaction.date = new Date(date)
         const sut = new PostgresGetTransactionByUserIdRepository()
         await prisma.user.create({ data: user })
         await prisma.transaction.create({
@@ -40,10 +47,16 @@ describe('GetTransactionByUserIdRepository', () => {
             'findMany',
         )
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
         expect(executeSpy).toHaveBeenCalledWith({
-            where: { user_id: user.id },
+            where: {
+                user_id: user.id,
+                date: {
+                    gte: new Date(from),
+                    lte: new Date(to),
+                },
+            },
         })
     })
 
