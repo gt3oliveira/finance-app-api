@@ -11,7 +11,7 @@ export class PostgresGetUserBalanceRepository {
         }
 
         const {
-            _sum: { amount: _totalExpenses },
+            _sum: { amount: totalExpenses },
         } = await prisma.transaction.aggregate({
             where: {
                 user_id: userId,
@@ -22,7 +22,7 @@ export class PostgresGetUserBalanceRepository {
         })
 
         const {
-            _sum: { amount: _totalEarnings },
+            _sum: { amount: totalEarnings },
         } = await prisma.transaction.aggregate({
             where: {
                 user_id: userId,
@@ -33,7 +33,7 @@ export class PostgresGetUserBalanceRepository {
         })
 
         const {
-            _sum: { amount: _totalInvestments },
+            _sum: { amount: totalInvestments },
         } = await prisma.transaction.aggregate({
             where: {
                 user_id: userId,
@@ -43,14 +43,37 @@ export class PostgresGetUserBalanceRepository {
             _sum: { amount: true },
         })
 
-        const balance = new Prisma.Decimal(
-            _totalEarnings - _totalExpenses - _totalInvestments,
-        )
+        const _totalExpenses = totalExpenses || new Prisma.Decimal(0)
+        const _totalEarnings = totalEarnings || new Prisma.Decimal(0)
+        const _totalInvestments = totalInvestments || new Prisma.Decimal(0)
+
+        const total = _totalEarnings
+            .plus(_totalExpenses)
+            .plus(_totalInvestments)
+
+        const balance = _totalEarnings
+            .minus(_totalExpenses)
+            .minus(_totalInvestments)
+
+        const earningsPercentage = total.isZero()
+            ? 0
+            : _totalEarnings.div(total).times(100).floor()
+
+        const expensesPercentage = total.isZero()
+            ? 0
+            : _totalExpenses.div(total).times(100).floor()
+
+        const investmentsPercentage = total.isZero()
+            ? 0
+            : _totalInvestments.div(total).times(100).floor()
 
         return {
-            totalEarnings: _totalEarnings || new Prisma.Decimal(0),
-            totalExpenses: _totalExpenses || new Prisma.Decimal(0),
-            totalInvestments: _totalInvestments || new Prisma.Decimal(0),
+            totalEarnings: _totalEarnings,
+            totalExpenses: _totalExpenses,
+            totalInvestments: _totalInvestments,
+            earningsPercentage,
+            expensesPercentage,
+            investmentsPercentage,
             balance,
         }
     }
