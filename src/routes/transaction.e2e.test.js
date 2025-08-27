@@ -6,7 +6,7 @@ describe('Transaction Routes E2E Test', () => {
     const from = '2024-01-01'
     const to = '2024-01-31'
 
-    it('POST /api/transactions should to create a transaction', async () => {
+    it('POST /api/transactions/me should to create a transaction', async () => {
         const user = await request(app)
             .post('/api/user')
             .send({
@@ -14,7 +14,7 @@ describe('Transaction Routes E2E Test', () => {
                 id: undefined,
             })
         const response = await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
             .send({
                 user_id: user.body.id,
@@ -31,7 +31,7 @@ describe('Transaction Routes E2E Test', () => {
         expect(response.body.amount).toStrictEqual(String(transaction.amount))
     })
 
-    it('GET /api/transactions?userId should return 200 and a list of transactions', async () => {
+    it('GET /api/transactions/me?userId should return 200 and a list of transactions', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/user')
             .send({
@@ -40,7 +40,7 @@ describe('Transaction Routes E2E Test', () => {
             })
 
         await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
@@ -51,14 +51,14 @@ describe('Transaction Routes E2E Test', () => {
             })
 
         const response = await request(app)
-            .get(`/api/transactions?from=${from}&to=${to}`)
+            .get(`/api/transactions/me?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body[0].user_id).toStrictEqual(createdUser.id)
     })
 
-    it('PATCH /api/transactions/:transactionId should return 200 and update a transaction', async () => {
+    it('PATCH /api/transactions/me/:transactionId should return 200 and update a transaction', async () => {
         const user = await request(app)
             .post('/api/user')
             .send({
@@ -66,7 +66,7 @@ describe('Transaction Routes E2E Test', () => {
                 id: undefined,
             })
         const transactionParams = await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
             .send({
                 user_id: user.body.id,
@@ -77,7 +77,7 @@ describe('Transaction Routes E2E Test', () => {
             })
 
         const response = await request(app)
-            .patch(`/api/transactions/${transactionParams.body.id}`)
+            .patch(`/api/transactions/me/${transactionParams.body.id}`)
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
             .send({
                 name: fakerUser.first_name,
@@ -89,7 +89,7 @@ describe('Transaction Routes E2E Test', () => {
         expect(response.body.amount).toStrictEqual('1000')
     })
 
-    it('DELETE /api/transactions/:transactionId should return 200 and delete a transaction', async () => {
+    it('DELETE /api/transactions/me/:transactionId should return 200 and delete a transaction', async () => {
         const user = await request(app)
             .post('/api/user')
             .send({
@@ -97,7 +97,7 @@ describe('Transaction Routes E2E Test', () => {
                 id: undefined,
             })
         const { body: transactionParams } = await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
             .send({
                 user_id: user.body.id,
@@ -108,14 +108,14 @@ describe('Transaction Routes E2E Test', () => {
             })
 
         const response = await request(app)
-            .delete(`/api/transactions/${transactionParams.id}`)
+            .delete(`/api/transactions/me/${transactionParams.id}`)
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body.id).toBe(transactionParams.id)
     })
 
-    it('PATCH /api/transactions/:transactionId should return 404 if transaction not found', async () => {
+    it('PATCH /api/transactions/me/:transactionId should return 404 if transaction not found', async () => {
         const user = await request(app)
             .post('/api/user')
             .send({
@@ -123,7 +123,7 @@ describe('Transaction Routes E2E Test', () => {
                 id: undefined,
             })
         const response = await request(app)
-            .patch(`/api/transactions/${transaction.id}`)
+            .patch(`/api/transactions/me/${transaction.id}`)
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
             .send({
                 name: transaction.name,
@@ -133,7 +133,7 @@ describe('Transaction Routes E2E Test', () => {
         expect(response.statusCode).toBe(404)
     })
 
-    it('DELETE /api/transactions/:transactionId should return 404 if transaction not found', async () => {
+    it('DELETE /api/transactions/me/:transactionId should return 404 if transaction not found', async () => {
         const user = await request(app)
             .post('/api/user')
             .send({
@@ -141,7 +141,7 @@ describe('Transaction Routes E2E Test', () => {
                 id: undefined,
             })
         const response = await request(app)
-            .delete(`/api/transactions/${transaction.id}`)
+            .delete(`/api/transactions/me/${transaction.id}`)
             .set('Authorization', `Bearer ${user.body.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(404)

@@ -15,7 +15,7 @@ describe('User Routes', () => {
         expect(response.statusCode).toBe(201)
     })
 
-    it('GET /api/user/:userId return 200', async () => {
+    it('GET /api/user/me return 200', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/user')
             .send({
@@ -24,14 +24,14 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .get(`/api/user`)
+            .get(`/api/user/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body.id).toBe(createdUser.id)
     })
 
-    it('PATCH /api/user/:userId return 200', async () => {
+    it('PATCH /api/user/me return 200', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/user')
             .send({
@@ -40,7 +40,7 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .patch(`/api/user`)
+            .patch(`/api/user/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 first_name: user.first_name,
@@ -56,7 +56,7 @@ describe('User Routes', () => {
         expect(response.body.password).not.toBe(user.password)
     })
 
-    it('DELETE /api/user/:userId return 200', async () => {
+    it('DELETE /api/user/me return 200', async () => {
         const { body: createdUser } = await request(app)
             .post('/api/user')
             .send({
@@ -65,14 +65,14 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .delete(`/api/user`)
+            .delete(`/api/user/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
         expect(response.body.id).toBe(createdUser.id)
     })
 
-    it('GET /api/user/:userId/balance return 200', async () => {
+    it('GET /api/user/me/balance return 200', async () => {
         const from = '2024-01-01'
         const to = '2024-01-31'
         const { body: createdUser } = await request(app)
@@ -83,7 +83,7 @@ describe('User Routes', () => {
             })
 
         await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
@@ -94,7 +94,7 @@ describe('User Routes', () => {
             })
 
         await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
@@ -105,7 +105,7 @@ describe('User Routes', () => {
             })
 
         await request(app)
-            .post('/api/transactions')
+            .post('/api/transactions/me')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
@@ -116,7 +116,7 @@ describe('User Routes', () => {
             })
 
         const response = await request(app)
-            .get(`/api/user/balance?from=${from}&to=${to}`)
+            .get(`/api/user/me/balance?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         expect(response.statusCode).toBe(200)
