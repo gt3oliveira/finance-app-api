@@ -31,10 +31,13 @@ describe('GetUserBalanceUseCase', () => {
         }
     }
 
+    const from = '2023-01-01'
+    const to = '2023-12-31'
+
     it('should get user balance on successfully', async () => {
         const { sut } = makSut()
 
-        const result = await sut.execute(user.id)
+        const result = await sut.execute(user.id, from, to)
 
         expect(result).toEqual(userBalance)
     })
@@ -46,7 +49,7 @@ describe('GetUserBalanceUseCase', () => {
             .spyOn(getUserByIdRepository, 'execute')
             .mockResolvedValueOnce(null)
 
-        const promise = sut.execute(user.id)
+        const promise = sut.execute(user.id, from, to)
 
         await expect(promise).rejects.toThrow(new UserNotFoundError(user.id))
     })
@@ -58,7 +61,7 @@ describe('GetUserBalanceUseCase', () => {
             .spyOn(getUserByIdRepository, 'execute')
             .mockRejectedValueOnce(new Error())
 
-        const promise = sut.execute(user.id)
+        const promise = sut.execute(user.id, from, to)
 
         await expect(promise).rejects.toThrow(new Error())
     })
@@ -70,7 +73,7 @@ describe('GetUserBalanceUseCase', () => {
             .spyOn(getUserBalanceRepository, 'execute')
             .mockRejectedValueOnce(new Error())
 
-        const promise = sut.execute(user.id)
+        const promise = sut.execute(user.id, from, to)
 
         await expect(promise).rejects.toThrow(new Error())
     })
@@ -83,9 +86,9 @@ describe('GetUserBalanceUseCase', () => {
             'execute',
         )
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
-        expect(executeSpy).toHaveBeenCalledWith(user.id)
+        expect(executeSpy).toHaveBeenCalledWith(user.id, from, to)
     })
 
     it('should call getUserByIdRepository with correct params', async () => {
@@ -96,7 +99,7 @@ describe('GetUserBalanceUseCase', () => {
             'execute',
         )
 
-        await sut.execute(user.id)
+        await sut.execute(user.id, from, to)
 
         expect(executeSpy).toHaveBeenCalledWith(user.id)
     })
