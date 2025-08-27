@@ -3,8 +3,14 @@ import { DeleteTransactionUseCase } from './delete-transaction.js'
 
 describe('DeleteTransactionUseCase', () => {
     class deleteTransactionRepositoryStub {
-        async execute(transactionId) {
-            return { ...transaction, id: transactionId }
+        async execute() {
+            return { ...transaction, user_id: transaction.user_id }
+        }
+    }
+
+    class getTransactionByIdRepositoryStub {
+        async execute() {
+            return { ...transaction, user_id: transaction.user_id }
         }
     }
 
@@ -12,17 +18,27 @@ describe('DeleteTransactionUseCase', () => {
         const deleteTransactionRepository =
             new deleteTransactionRepositoryStub()
 
-        const sut = new DeleteTransactionUseCase(deleteTransactionRepository)
+        const getTransactionByIdRepository =
+            new getTransactionByIdRepositoryStub()
+
+        const sut = new DeleteTransactionUseCase(
+            deleteTransactionRepository,
+            getTransactionByIdRepository,
+        )
         return {
             sut,
             deleteTransactionRepository,
+            getTransactionByIdRepository,
         }
     }
 
     it('should if deleted transaction on successfully', async () => {
         const { sut } = makeSut()
 
-        const deletedTransaction = await sut.execute(transaction.id)
+        const deletedTransaction = await sut.execute(
+            transaction.id,
+            transaction.user_id,
+        )
 
         expect(deletedTransaction).toEqual({
             ...transaction,
@@ -38,7 +54,7 @@ describe('DeleteTransactionUseCase', () => {
             'execute',
         )
 
-        await sut.execute(transaction.id)
+        await sut.execute(transaction.id, transaction.user_id)
 
         expect(executeSpy).toHaveBeenCalledWith(transaction.id)
     })
@@ -50,7 +66,7 @@ describe('DeleteTransactionUseCase', () => {
             .spyOn(deleteTransactionRepository, 'execute')
             .mockRejectedValueOnce(new Error())
 
-        const promise = sut.execute(transaction.id)
+        const promise = sut.execute(transaction.id, transaction.user_id)
 
         await expect(promise).rejects.toThrow(new Error())
     })
