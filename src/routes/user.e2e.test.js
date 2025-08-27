@@ -124,6 +124,9 @@ describe('User Routes', () => {
             totalEarnings: '10000',
             totalExpenses: '2000',
             totalInvestments: '1000',
+            earningsPercentage: '76',
+            expensesPercentage: '15',
+            investmentsPercentage: '7',
             balance: '7000',
         })
     })
