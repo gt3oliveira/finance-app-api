@@ -1,7 +1,8 @@
+import { ZodError } from 'zod'
 import { TransactionNotFoundError } from '../../errors/transaction.js'
+import { getTransactionsParamsSchema } from '../../schemas/transaction.js'
 import {
-    checkIfIdIsValid,
-    invalidIdResponse,
+    badRequest,
     ok,
     serverError,
     transactionNotFound,
@@ -14,21 +15,29 @@ export class DeleteTransactionController {
 
     async execute(httpRequest) {
         try {
-            const idIsValid = checkIfIdIsValid(httpRequest.params.transactionId)
+            const transactionId = httpRequest.params.transactionId
+            const userId = httpRequest.params.user_id
 
-            if (!idIsValid) {
-                return invalidIdResponse()
-            }
+            await getTransactionsParamsSchema.parseAsync({
+                transactionId,
+                userId,
+            })
 
             const deletedTransaction =
                 await this.deleteTransactionUseCase.execute(
-                    httpRequest.params.transactionId,
-                    httpRequest.params.user_id,
+                    transactionId,
+                    userId,
                 )
 
             return ok(deletedTransaction)
         } catch (error) {
             console.log('<< Error in DeleteTransactionController >>', error)
+
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
+            }
 
             if (error instanceof TransactionNotFoundError) {
                 return transactionNotFound()

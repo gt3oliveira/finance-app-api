@@ -38,3 +38,8 @@ export const getTransactionsByUserIdSchema = z.object({
     from: z.string().date(),
     to: z.string().date(),
 })
+
+export const getTransactionsParamsSchema = z.object({
+    transactionId: z.string().uuid({ message: 'Invalid UUID format' }),
+    userId: z.string().uuid({ message: 'Invalid UUID format' }),
+})

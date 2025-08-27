@@ -64,7 +64,7 @@ transactionRouter.delete('/me/:transactionId', auth, async (req, res) => {
     const { statusCode, body } = await deleteTransactionController.execute({
         params: {
             transactionId: req.params.transactionId,
-            user_id: req.user_id,
+            user_id: req.userId,
         },
     })
 
