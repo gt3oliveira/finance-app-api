@@ -58,13 +58,15 @@ transactionRouter.patch('/me/:transactionId', auth, async (req, res) => {
     res.status(statusCode).send(body)
 })
 
-transactionRouter.delete('/me/:transactionId', async (req, res) => {
+transactionRouter.delete('/me/:transactionId', auth, async (req, res) => {
     const deleteTransactionController = makeDeleteTransactionController()
 
-    const { statusCode, body } = await deleteTransactionController.execute(
-        req,
-        res,
-    )
+    const { statusCode, body } = await deleteTransactionController.execute({
+        params: {
+            transactionId: req.params.transactionId,
+            user_id: req.user_id,
+        },
+    })
 
     res.status(statusCode).send(body)
 })
