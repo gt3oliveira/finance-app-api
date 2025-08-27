@@ -10,7 +10,7 @@ import { auth } from '../middlewares/auth.js'
 export const transactionRouter = Router()
 
 // Get transactions by user ID
-transactionRouter.get('/', auth, async (req, res) => {
+transactionRouter.get('/me', auth, async (req, res) => {
     const getTransactionByUserIdController =
         makeGetTransactionByUserIdController()
 
@@ -30,7 +30,7 @@ transactionRouter.get('/', auth, async (req, res) => {
 })
 
 // Create a transaction
-transactionRouter.post('/', auth, async (req, res) => {
+transactionRouter.post('/me', auth, async (req, res) => {
     const createTransactionController = makeCreateTransactionController()
 
     const { statusCode, body } = await createTransactionController.execute({
@@ -44,7 +44,7 @@ transactionRouter.post('/', auth, async (req, res) => {
     res.status(statusCode).send(body)
 })
 
-transactionRouter.patch('/:transactionId', auth, async (req, res) => {
+transactionRouter.patch('/me/:transactionId', auth, async (req, res) => {
     const updateTransactionController = makeUpdateTransactionController()
 
     const { statusCode, body } = await updateTransactionController.execute({
@@ -58,7 +58,7 @@ transactionRouter.patch('/:transactionId', auth, async (req, res) => {
     res.status(statusCode).send(body)
 })
 
-transactionRouter.delete('/:transactionId', async (req, res) => {
+transactionRouter.delete('/me/:transactionId', async (req, res) => {
     const deleteTransactionController = makeDeleteTransactionController()
 
     const { statusCode, body } = await deleteTransactionController.execute(
