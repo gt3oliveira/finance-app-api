@@ -4,14 +4,14 @@ import { dirname, join } from 'path'
 import { userRouter, transactionRouter } from './routes/index.js'
 import swaggerUi from 'swagger-ui-express'
 import fs from 'fs'
-// import cors from 'cors'
+import cors from 'cors'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const app = express()
 
-// app.use(cors())
+app.use(cors())
 app.use(express.json())
 
 app.use('/api/user', userRouter)
